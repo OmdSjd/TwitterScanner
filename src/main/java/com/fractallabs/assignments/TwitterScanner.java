@@ -42,6 +42,7 @@ public class TwitterScanner {
             public void onStatus(Status status) {
                 if(status.getText().toLowerCase().contains(companyName.toLowerCase())){
                     hourlyCount++;
+                    //System.out.println(status.getUser().getName() +" @"+status.getUser().getScreenName() + " : " + status.getText());
                 }
             }
             @Override
@@ -139,6 +140,6 @@ public class TwitterScanner {
             }
         };
         //The run method gets called hourly
-        timer.schedule (hourlyTask, 0l, 1000*60);
+        timer.schedule (hourlyTask, 0l, 1000*60*60);
     }
 }
