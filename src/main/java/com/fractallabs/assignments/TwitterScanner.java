@@ -37,7 +37,6 @@ public class TwitterScanner{
         twitterStream.filter(filterQuery);
         scanner.put("TwitterScanner", listChanges);
     }
-
     public static void main(String... args) {
         TwitterScanner scanner = new TwitterScanner("@Facebook");
         //Create a Timer object and give it a TimerTask that performs the run method of TwitterScanner
@@ -51,7 +50,6 @@ public class TwitterScanner{
         //The run method gets called hourly
         timer.schedule(hourlyTask, 1000 * 60 * 60, 1000 * 60 * 60);
     }
-
     /*
     * This method runs every hour and calls the storeValue method
     * hourlyCount = the count of mentions per hour
