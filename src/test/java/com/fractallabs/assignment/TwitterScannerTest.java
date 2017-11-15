@@ -1,6 +1,6 @@
 package com.fractallabs.assignment;
 
-import com.fractallabs.assignments.TwitterScanner;
+import com.twitterscanner.os.TwitterScanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,6 +13,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.LongAdder;
+import java.util.stream.IntStream;
 
 public class TwitterScannerTest {
     File file = new File("./src/test/resources/meta-inf/changes.json");
@@ -52,5 +56,27 @@ public class TwitterScannerTest {
         } catch (ParseException p) {
             p.printStackTrace();
         }
+    }
+
+    @Test
+    public void testConcurrency(){
+        LongAdder counter = new LongAdder();
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+
+        int numberOfThreads = 4;
+        int numberOfIncrements = 100;
+
+        Runnable incrementAction = () -> IntStream
+                .range(0, numberOfIncrements)
+                .forEach(i -> counter.increment());
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            executorService.execute(incrementAction);
+            System.out.println(counter.intValue());
+        }
+
+        //Assert.assertEquals(counter.sum(), numberOfIncrements * numberOfThreads);
+        //Assert.assertEquals(counter.sumThenReset(), numberOfIncrements * numberOfThreads);
+        //Assert.assertEquals(counter.sum(), 0);
     }
 }

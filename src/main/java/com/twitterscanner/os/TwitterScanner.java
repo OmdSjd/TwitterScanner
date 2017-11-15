@@ -1,4 +1,4 @@
-package com.fractallabs.assignments;
+package com.twitterscanner.os;
 
 import org.json.simple.JSONObject;
 import twitter4j.FilterQuery;
@@ -31,6 +31,7 @@ public class TwitterScanner{
         twitterStream.onStatus(status -> {
             hourlyCount.increment();
             //System.out.println(status.getUser().getScreenName() + " has tweeted:" + status.getText());
+            System.out.println(Thread.currentThread().getName());
         });
         FilterQuery filterQuery = new FilterQuery();
         filterQuery.track(companyName);
@@ -38,17 +39,19 @@ public class TwitterScanner{
         scanner.put("TwitterScanner", listChanges);
     }
     public static void main(String... args) {
-        TwitterScanner scanner = new TwitterScanner("@Facebook");
+        TwitterScanner scanner = new TwitterScanner("bitcoin");
         //Create a Timer object and give it a TimerTask that performs the run method of TwitterScanner
         Timer timer = new Timer();
+        System.out.println(Thread.currentThread().getName());
         TimerTask hourlyTask = new TimerTask() {
             @Override
             public void run() {
                 scanner.run();
+                System.out.println(Thread.currentThread().getName());
             }
         };
         //The run method gets called hourly
-        timer.schedule(hourlyTask, 1000 * 60 * 60, 1000 * 60 * 60);
+        timer.schedule(hourlyTask, 5000, 5000);
     }
     /*
     * This method runs every hour and calls the storeValue method
