@@ -16,3 +16,7 @@ target/
 *.iws
 *.iml
 *.ipr
+
+project.properties
+*.properties
+project.properties
